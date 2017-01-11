@@ -27,8 +27,8 @@ export function checkIfRepoExists(name: string): Promise<boolean> {
   const headers = getHeaders()
 
   return fetch(
-      `${GITHUB_API_BASE_URL}/user`, 
-      {method: 'GET', headers}
+      `${GITHUB_API_BASE_URL}/user/repos/${name}`, 
+      {method: 'GET', headers: getHeaders()}
     )
     .then(res => res.status !== 404)
 }

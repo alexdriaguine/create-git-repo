@@ -9,8 +9,8 @@ export const getBasicAuthBase64String = (username: string, token: string) => {
 export const getEnvVar = (key: string): string => process.env[key] || ''
 
 export const getHeaders = (headers?: {}): {} => {
-  const username = getEnvVar('USERNAME')
-  const token = getEnvVar('ACCESS_TOKEN')
+  const username = getEnvVar('GITHUB_USERNAME')
+  const token = getEnvVar('GITHUB_CREATE_REPO_ACCESS_TOKEN')
   return { 
     ...headers,
     'Accept': 'application/vnd.github.v3+json',

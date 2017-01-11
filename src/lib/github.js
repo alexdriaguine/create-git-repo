@@ -1,3 +1,5 @@
+// @flow
+
 import fetch from 'node-fetch'
 import {GITHUB_API_BASE_URL, getHeaders} from './utils'
 
@@ -21,9 +23,9 @@ export function createRepo(
   })
 }
 
-export function checkIfRepoExists(name: string): Promise<any> {
+export function checkIfRepoExists(name: string): Promise<boolean> {
   const headers = getHeaders()
-  
+
   return fetch(
       `${GITHUB_API_BASE_URL}/user`, 
       {method: 'GET', headers}

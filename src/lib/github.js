@@ -17,10 +17,6 @@ export function createRepo(
     {method: 'POST', headers, body}
   )
   .then(res => res.json())
-  .then(res => {
-    console.log(res)
-    return res
-  })
 }
 
 export function checkIfRepoExists(name: string): Promise<boolean> {

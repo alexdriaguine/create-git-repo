@@ -4,21 +4,21 @@ require('dotenv').config()
 require('babel-polyfill')
 
 import dotenv from 'dotenv'
+import Promise from 'bluebird'
 import program from 'commander'
 import co from 'co'
 import prompt from 'co-prompt'
 import chalk from 'chalk'
 import fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
-import {getHeaders} from './lib/utils'
-import {exec} from 'child_process'
+import {getHeaders, initiateRepo, RepoMethods} from './lib/utils'
 import fetch from 'node-fetch'
+
 
 function main(name: string): void {
   co(function *() {
     const exists = yield checkIfRepoExists(name)
     const dir = `./${name}`
-    console.log(exists)
 
     if (fs.existsSync(dir)) {
       console.log(chalk.bold.red(`A folder with the name ${name} already exists in this folder..`))
@@ -29,33 +29,35 @@ function main(name: string): void {
       process.exit(0)
     }
     fs.mkdirSync(dir)
-    exec('git init', {cwd: dir})
 
     const isPrivate = yield prompt('Private repo? y/N: ')
     const description = yield prompt('Description: ')
     const repo = yield createRepo({name, isPrivate: isPrivate === 'y', description})
     const {html_url} = repo
+    const {init, createReadme, add, commit, addRemote, push, openBrowser}: RepoMethods = initiateRepo(dir, name, html_url)
 
-    
+    Promise.each([init, createReadme, add, commit, addRemote, openBrowser], result => result)
 
-    
-    exec(`google-chrome ${html_url}`, err => {
-      if (err) {
-        console.error(err)
-        console.log(chalk.red('Could not open google chrome..'))
-        console.log(`Your newly created repository is created and located at ${chalk.bold.green(html_url)}`)
-      }
-      process.exit(0)
-    })
+    console.log(
+      `Your newly created repository is created and located at ${chalk.bold.green(html_url)}`
+    )
+    process.exit(1)
+
+    // init
+    //   .then(addRemote)
+    //   .then(createReadme)
+    //   .then(add)
+    //   .then(commit)
+    //   .then(openBrowser)
+    //   .then(() => {
+    //     console.log(
+    //       `Your newly created repository is created and located at ${chalk.bold.green(html_url)}`
+    //     )
+    //     process.exit(1)
+    //   })
+    //   .catch(err => console.log(err))
   })
 }
-
-fetch('https://api.github.com/user/repos/yolo', {
-  method:  'GET',
-  headers: getHeaders()
-})
-.then(res => res.json())
-.then(res => console.log(res))
 
 program
   .arguments('<name>')

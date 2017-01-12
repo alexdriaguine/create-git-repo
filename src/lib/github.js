@@ -4,12 +4,14 @@ import fetch from 'node-fetch'
 import {GITHUB_API_BASE_URL, getHeaders} from './utils'
 
 export function createRepo(
-  {name, isPrivate}: {name: string, isPrivate: boolean}
+  {name, isPrivate, description}: {name: string, isPrivate: boolean, description: string}
 ): Promise<any> {
+  console.log(description)
   const headers = getHeaders()
   const body = JSON.stringify({
     name,
-    private: isPrivate
+    private: isPrivate,
+    description
   })
 
   return fetch(

@@ -11,12 +11,13 @@ import prompt from 'co-prompt'
 import chalk from 'chalk'
 import fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
-import {getHeaders, initiateRepo, RepoMethods} from './lib/utils'
+import {getHeaders, initiateRepo, getEnvVar} from './lib/utils'
 import fetch from 'node-fetch'
 
 
 function main(name: string): void {
   co(function *() {
+
     const exists = yield checkIfRepoExists(name)
     const dir = `./${name}`
 
@@ -34,28 +35,27 @@ function main(name: string): void {
     const description = yield prompt('Description: ')
     const repo = yield createRepo({name, isPrivate: isPrivate === 'y', description})
     const {html_url} = repo
-    const {init, createReadme, add, commit, addRemote, push, openBrowser}: RepoMethods = initiateRepo(dir, name, html_url)
+    const {init, createReadme, add, commit, addRemote}= initiateRepo(dir, name, html_url)
 
-    Promise.each([init, createReadme, add, commit, addRemote, openBrowser], result => result)
+    init()
+      .then(() => addRemote())
+      .then(() => createReadme())
+      .then(() => add())
+      .then(() => commit())
+      .then(() => {
+        console.log(
+          `Your newly created repository is created and located at ${chalk.bold.cyan(html_url)}`
+        )
+        console.log(
+          `To start working:`
+        )
+        console.log(`1. ${chalk.bold.green(`cd ${name}`)}`)
+        console.log(`2. ${chalk.bold.green(`git push -u origin master`)}`)
+        console.log(`Hack away!`)
+        process.exit(1)
+      })
+      .catch(err => console.error(err))
 
-    console.log(
-      `Your newly created repository is created and located at ${chalk.bold.green(html_url)}`
-    )
-    process.exit(1)
-
-    // init
-    //   .then(addRemote)
-    //   .then(createReadme)
-    //   .then(add)
-    //   .then(commit)
-    //   .then(openBrowser)
-    //   .then(() => {
-    //     console.log(
-    //       `Your newly created repository is created and located at ${chalk.bold.green(html_url)}`
-    //     )
-    //     process.exit(1)
-    //   })
-    //   .catch(err => console.log(err))
   })
 }
 

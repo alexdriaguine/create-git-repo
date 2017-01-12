@@ -20,7 +20,7 @@
     "babel-register": "^6.18.0",
     "flow-bin": "^0.37.4"
   },
-  "name": "github",
+  "name": "gitnit",
   "version": "1.0.0",
   "scripts": {
     "watch": "nodemon src/index.js --exec babel-node presets es2015,stage-2",
@@ -31,6 +31,6 @@
   "license": "ISC",
   "description": "",
   "bin": {
-    "create-repo": "./dist/index.js"
+    "gitnit": "./dist/index.js"
   }
 }

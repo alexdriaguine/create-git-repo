@@ -68,8 +68,3 @@ if (!program.arguments('name')) {
   console.log('Please supply a name for the repository')
   process.exit(0)
 }
-
-
-
-
-

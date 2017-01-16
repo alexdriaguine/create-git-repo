@@ -44,4 +44,3 @@ export function initiateRepo(dir: string, name: string, url: string) {
     addRemote,
   }
 }
-

@@ -30,5 +30,3 @@ export function checkIfRepoExists(name: string): Promise<boolean> {
     )
     .then(res => res.status !== 404)
 }
-
-

@@ -4,7 +4,7 @@ Create github repositories with ease.
 ## Installation
 * Clone the repository
 * CD into directory and `npm install`
-* `npm build && npm link`
+* `npm run build && npm link`
 
 
 ## Usage

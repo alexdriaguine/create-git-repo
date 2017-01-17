@@ -65,10 +65,10 @@ function main(name: string): void {
     const {init, createReadme, add, commit, addRemote} = initiateRepo(initRepoOptions)
 
     init()
-      .then(() => addRemote())
-      .then(() => createReadme())
-      .then(() => add())
-      .then(() => commit())
+      .then(addRemote)
+      .then(createReadme)
+      .then(add)
+      .then(commit)
       .then(() => {
         console.log(
           `Your newly created repository is created and located at ${chalk.bold.cyan(html_url)}`

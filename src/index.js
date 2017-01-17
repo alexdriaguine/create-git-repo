@@ -11,14 +11,29 @@ import prompt from 'co-prompt'
 import chalk from 'chalk'
 import fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
-import {getHeaders, initiateRepo, getEnvVar} from './lib/utils'
+import {getHeaders, initiateRepo, getEnvVar, getBasicAuthToken} from './lib/utils'
 import fetch from 'node-fetch'
 
 
 function main(name: string): void {
   co(function *() {
+    let username = getEnvVar('GITHUB_USERNAME')
+    let githubAccessToken = getEnvVar('GITHUB_CREATE_REPO_ACCESS_TOKEN')
+    let password: string
+    let basicAuthToken: string
 
-    const exists = yield checkIfRepoExists(name)
+    if (username.length === 0 || githubAccessToken.length === 0) {
+      console.log('No username or github access token found set as enviroment variables..')
+      console.log('Please enter your github credentials instead')
+
+      username = yield prompt('Username: ')
+      password = yield prompt.password('Password: ')
+      basicAuthToken = getBasicAuthToken(username, password)
+    } else {
+      basicAuthToken = getBasicAuthToken(username, githubAccessToken)
+    }
+
+    const exists = yield checkIfRepoExists(name, basicAuthToken)
     const dir = `./${name}`
 
     if (fs.existsSync(dir)) {
@@ -30,12 +45,24 @@ function main(name: string): void {
       process.exit(0)
     }
     fs.mkdirSync(dir)
-
+    const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N')
     const isPrivate = yield prompt('Private repo? y/N: ')
     const description = yield prompt('Description: ')
-    const repo = yield createRepo({name, isPrivate: isPrivate === 'y', description})
-    const {html_url} = repo
-    const {init, createReadme, add, commit, addRemote}= initiateRepo(dir, name, html_url)
+    
+    const repoOptions = {
+      name,
+      description,
+      isPrivate: isPrivate === 'y',
+      accessToken: basicAuthToken
+    }
+    const repo = yield createRepo(repoOptions)
+    const {html_url, ssh_url, clone_url} = repo
+    const initRepoOptions = {
+      dir,
+      name,
+      remoteUrl: useSSHRemote === 'y' ? ssh_url : clone_url
+    }
+    const {init, createReadme, add, commit, addRemote} = initiateRepo(initRepoOptions)
 
     init()
       .then(() => addRemote())
@@ -55,7 +82,6 @@ function main(name: string): void {
         process.exit(1)
       })
       .catch(err => console.error(err))
-
   })
 }
 

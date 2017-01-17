@@ -9,7 +9,6 @@
     "commander": "^2.9.0",
     "dotenv": "^4.0.0",
     "github-api": "^3.0.0",
-    "global": "^4.3.1",
     "node-fetch": "^1.6.3",
     "nodemon": "^1.11.0"
   },
@@ -20,7 +19,7 @@
     "babel-register": "^6.18.0",
     "flow-bin": "^0.37.4"
   },
-  "name": "gitnit",
+  "name": "create-git-repo",
   "version": "1.0.0",
   "scripts": {
     "watch": "nodemon src/index.js --exec babel-node presets es2015,stage-2",
@@ -31,6 +30,6 @@
   "license": "ISC",
   "description": "",
   "bin": {
-    "gitnit": "./dist/index.js"
+    "create-git-repo": "./dist/index.js"
   }
 }

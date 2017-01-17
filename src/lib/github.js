@@ -2,12 +2,13 @@
 
 import fetch from 'node-fetch'
 import {GITHUB_API_BASE_URL, getHeaders} from './utils'
+import {GithubRequestParams} from './entities'
 
 export function createRepo(
-  {name, isPrivate, description}: {name: string, isPrivate: boolean, description: string}
+  {name, isPrivate, description, accessToken}: GithubRequestParams
 ): Promise<any> {
   console.log(description)
-  const headers = getHeaders()
+  const headers = getHeaders(accessToken)
   const body = JSON.stringify({
     name,
     private: isPrivate,
@@ -21,12 +22,12 @@ export function createRepo(
   .then(res => res.json())
 }
 
-export function checkIfRepoExists(name: string): Promise<boolean> {
-  const headers = getHeaders()
+export function checkIfRepoExists(name: string, accessToken: string): Promise<boolean> {
+  const headers = getHeaders(accessToken)
 
   return fetch(
       `${GITHUB_API_BASE_URL}/user/repos/${name}`, 
-      {method: 'GET', headers: getHeaders()}
+      {method: 'GET', headers}
     )
     .then(res => res.status !== 404)
 }

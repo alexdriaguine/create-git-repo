@@ -29,5 +29,8 @@ export function checkIfRepoExists(name: string, accessToken: string): Promise<bo
       `${GITHUB_API_BASE_URL}/user/repos/${name}`, 
       {method: 'GET', headers}
     )
-    .then(({ status }) => status)
+    .then(({ status }) => ({
+      wrongCredentials: status === 401,
+      repoExists: status === 404,
+    }))
 }

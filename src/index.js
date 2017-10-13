@@ -33,15 +33,19 @@ function main(name: string): void {
       basicAuthToken = getBasicAuthToken(username, githubAccessToken)
     }
 
-    const exists = yield checkIfRepoExists(name, basicAuthToken)
+    const { wrongCredentials, repoExists } = yield checkIfRepoExists(name, basicAuthToken)
     const dir = `./${name}`
 
     if (fs.existsSync(dir)) {
       console.log(chalk.bold.red(`A folder with the name ${name} already exists in this folder..`))
       process.exit(0)
     }
-    if (exists) {
+    if (repoExists) {
       console.log(chalk.bold.red(`A repository with the name ${name} already exists on your github account..`))
+      process.exit(0)
+    }
+    if (wrongCredentials) {
+      console.log(chalk.bold.red(`Hey! You got your credentials all wrong ${username}!`))
       process.exit(0)
     }
     fs.mkdirSync(dir)

@@ -52,7 +52,6 @@ function main(name: string): void {
     const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N')
     const isPrivate = yield prompt('Private repo? y/N: ')
     const description = yield prompt('Description: ')
-
     const hasReact = yield hasCreateReactApp()
     const useReact = hasReact ? yield prompt('Use create-react-app? y/N: ') : false
     
@@ -70,11 +69,11 @@ function main(name: string): void {
       useReact: useReact === 'y',
       remoteUrl: useSSHRemote === 'y' ? ssh_url : clone_url
     }
-    const {init, createReadme, add, commit, addRemote} = initiateRepo(initRepoOptions)
+    const {init, createReadme, createReactApp, add, commit, addRemote} = initiateRepo(initRepoOptions)
 
     init()
       .then(addRemote)
-      .then(createReadme)
+      .then(useReact === 'y' ? createReactApp : createReadme)
       .then(add)
       .then(commit)
       .then(() => {

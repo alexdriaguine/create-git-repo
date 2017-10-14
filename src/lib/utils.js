@@ -32,9 +32,12 @@ export type InitRepoArgs = {
   remoteUrl: string;
 }
 
+export const hasCreateReactApp = () => 
+  execute('.')('create-react-app --version')()
+    .then(() => true)
+    .catch(() => false)
 
-
-export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
+export function initiateRepo({dir, name, remoteUrl, useReact}: InitRepoArgs): InitRepo {
 
   const init = execute(dir)('git init')
   const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)

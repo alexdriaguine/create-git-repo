@@ -28,8 +28,8 @@ export function checkIfRepoExists(name: string, accessToken: string, username: s
       `${GITHUB_API_BASE_URL}/repos/${username}/${name}`, 
       {method: 'GET', headers}
     )
-    .then(({ status}) => ({
+    .then(({status}) => ({
         wrongCredentials: status === 401,
-        repoExists: status === 404,
+        repoExists: status === 200,
       }))
 }

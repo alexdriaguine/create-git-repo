@@ -3,17 +3,17 @@ Create github repositories with ease.
 
 ## Installation
 
-### Using NPM
-* Clone the repository
-* CD into directory
-* `npm install` to install dependencies
-* `npm run build && npm link` to build
-
 ### Using Yarn
 * Clone the repository
 * CD into directory
 * `yarn`
 * `yarn build && yarn link`
+
+### Using NPM
+* Clone the repository
+* CD into directory
+* `npm install` to install dependencies
+* `npm run build && npm link` to build
 
 
 ## Usage

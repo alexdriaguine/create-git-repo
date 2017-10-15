@@ -1,4 +1,3 @@
-// @flow
 
 import fetch from 'node-fetch'
 import {GITHUB_API_BASE_URL, getHeaders} from './utils'

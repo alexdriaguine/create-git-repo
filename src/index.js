@@ -11,7 +11,7 @@ import prompt from 'co-prompt'
 import chalk from 'chalk'
 import fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
-import {getHeaders, initiateRepo, getEnvVar, getBasicAuthToken} from './lib/utils'
+import {getHeaders, initiateRepo, getEnvVar, getBasicAuthToken, hasCreateReactApp} from './lib/utils'
 import fetch from 'node-fetch'
 
 
@@ -52,6 +52,8 @@ function main(name: string): void {
     const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N')
     const isPrivate = yield prompt('Private repo? y/N: ')
     const description = yield prompt('Description: ')
+    const hasReact = yield hasCreateReactApp()
+    const useReact = hasReact ? yield prompt('Use create-react-app? y/N: ') : false
     
     const repoOptions = {
       name,
@@ -64,13 +66,14 @@ function main(name: string): void {
     const initRepoOptions = {
       dir,
       name,
+      useReact: useReact === 'y',
       remoteUrl: useSSHRemote === 'y' ? ssh_url : clone_url
     }
-    const {init, createReadme, add, commit, addRemote} = initiateRepo(initRepoOptions)
+    const {init, createReadme, createReactApp, add, commit, addRemote} = initiateRepo(initRepoOptions)
 
     init()
       .then(addRemote)
-      .then(createReadme)
+      .then(useReact === 'y' ? createReactApp : createReadme)
       .then(add)
       .then(commit)
       .then(() => {

@@ -32,11 +32,15 @@ export type InitRepoArgs = {
   remoteUrl: string;
 }
 
-
+export const hasCreateReactApp = () => 
+  execute('.')('create-react-app --version')()
+    .then(() => true)
+    .catch(() => false)
 
 export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
 
   const init = execute(dir)('git init')
+  const createReactApp = execute(dir)(`create-react-app .`)
   const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)
   const add = execute(dir)('git add .')
   const addRemote = execute(dir)(`git remote add origin ${remoteUrl}`)
@@ -44,6 +48,7 @@ export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
 
   return {
     init,
+    createReactApp,
     createReadme,
     add,
     commit,

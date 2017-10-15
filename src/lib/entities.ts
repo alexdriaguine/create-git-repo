@@ -1,11 +1,11 @@
-export type GithubRequestParams = {
+export interface GithubRequestParams {
   accessToken: string,
   name: string,
-  isPrivate: string,
+  isPrivate: boolean,
   description?: string,
 }
 
-export type GithubRequestHeaders = {
+export interface GithubRequestHeaders {
   Authorization: string,
   Accept: string,
 }

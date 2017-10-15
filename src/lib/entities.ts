@@ -1,3 +1,5 @@
+import * as Promise from 'bluebird';
+
 export interface GithubRequestParams {
   accessToken: string,
   name: string,
@@ -8,11 +10,13 @@ export interface GithubRequestParams {
 export interface GithubRequestHeaders {
   Authorization: string,
   Accept: string,
+  [index: string]: string
 }
 
 export interface InitRepo {
   init: () => Promise<any>;
   createReadme: () => Promise<any>;
+  createReactApp: () => Promise<any>;
   add: () => Promise<any>;
   commit: () => Promise<any>;
   addRemote: () => Promise<any>;

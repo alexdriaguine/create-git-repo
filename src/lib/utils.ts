@@ -1,7 +1,6 @@
 
 import {exec} from 'child_process'
 import * as Promise from 'bluebird'
-import co from 'co'
 import {GithubRequestHeaders, InitRepo} from './entities'
 
 export const GITHUB_API_BASE_URL: string = 'https://api.github.com'

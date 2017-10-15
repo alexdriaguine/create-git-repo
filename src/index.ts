@@ -5,21 +5,18 @@ require('babel-polyfill')
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import * as Promise from 'bluebird'
-import program from 'commander'
+import * as program from 'commander'
 import co from 'co'
 import prompt from 'co-prompt'
-import chalk from 'chalk'
+import * as chalk from 'chalk'
 import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
 import {
-  getHeaders,
   initiateRepo,
   getEnvVar,
   getBasicAuthToken,
   hasCreateReactApp,
 } from './lib/utils'
-import fetch from 'node-fetch'
 
 function main(name: string): void {
   co(function*() {

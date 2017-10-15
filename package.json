@@ -19,8 +19,8 @@
     "babel-register": "^6.18.0",
     "flow-bin": "^0.37.4"
   },
-  "name": "create-git-repo",
-  "version": "0.1.0",
+  "name": "git-repo-create",
+  "version": "1.0.0",
   "scripts": {
     "watch": "nodemon src/index.js --exec babel-node presets es2015,stage-2",
     "build": "babel src --out-dir dist",
@@ -30,6 +30,6 @@
   "license": "ISC",
   "description": "",
   "bin": {
-    "create-git-repo": "./dist/index.js"
+    "git-repo-create": "./dist/index.js"
   }
 }

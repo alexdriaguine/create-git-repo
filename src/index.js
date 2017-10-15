@@ -33,7 +33,7 @@ function main(name: string): void {
       basicAuthToken = getBasicAuthToken(username, githubAccessToken)
     }
 
-    const { wrongCredentials, repoExists } = yield checkIfRepoExists(name, basicAuthToken)
+    const { wrongCredentials, repoExists } = yield checkIfRepoExists(name, basicAuthToken, username)
     const dir = `./${name}`
 
     if (fs.existsSync(dir)) {

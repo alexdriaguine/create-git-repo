@@ -1,13 +1,13 @@
 export type GithubRequestParams = {
-  accessToken: string;
-  name: string;
-  isPrivate: string;
-  description?: string;
+  accessToken: string,
+  name: string,
+  isPrivate: string,
+  description?: string,
 }
 
 export type GithubRequestHeaders = {
-  Authorization: string;
-  Accept: string;
+  Authorization: string,
+  Accept: string,
 }
 
 export interface InitRepo {

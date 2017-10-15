@@ -6,39 +6,38 @@ import {GithubRequestHeaders, InitRepo} from './entities'
 
 export const GITHUB_API_BASE_URL: string = 'https://api.github.com'
 
-export const getBasicAuthToken = (username: string, tokenOrPassword: string): string => 
+export const getBasicAuthToken = (
+  username: string,
+  tokenOrPassword: string,
+): string =>
   new Buffer(`${username}:${tokenOrPassword}`, 'ascii').toString('base64')
 
 export const getEnvVar = (key: string): string => process.env[key] || ''
 
-
 export const getHeaders = (accessToken: string): GithubRequestHeaders => {
-
-  return { 
-    'Accept': 'application/vnd.github.v3+json',
-    'Authorization': `Basic ${accessToken}`
+  return {
+    Accept: 'application/vnd.github.v3+json',
+    Authorization: `Basic ${accessToken}`,
   }
 }
 
-const execute = (dir: string) => 
-  (command: string) => 
-    () => 
-      new Promise((resolve, reject) => 
-        exec(command, {cwd: dir}, err => err ? reject(err) : resolve()))
+const execute = (dir: string) => (command: string) => () =>
+  new Promise((resolve, reject) =>
+    exec(command, {cwd: dir}, err => (err ? reject(err) : resolve())),
+  )
 
 export type InitRepoArgs = {
-  dir: string;
-  name: string;
-  remoteUrl: string;
+  dir: string,
+  name: string,
+  remoteUrl: string,
 }
 
-export const hasCreateReactApp = () => 
+export const hasCreateReactApp = () =>
   execute('.')('create-react-app --version')()
     .then(() => true)
     .catch(() => false)
 
 export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
-
   const init = execute(dir)('git init')
   const createReactApp = execute(dir)(`create-react-app .`)
   const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)

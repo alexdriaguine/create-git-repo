@@ -20,7 +20,7 @@
     "flow-bin": "^0.37.4"
   },
   "name": "create-git-repo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "watch": "nodemon src/index.js --exec babel-node presets es2015,stage-2",
     "build": "babel src --out-dir dist",

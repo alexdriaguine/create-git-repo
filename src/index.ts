@@ -1,15 +1,16 @@
 #!/usr/bin/env node
-// @flow
-require('dotenv').config()
+
 require('babel-polyfill')
 
-import dotenv from 'dotenv'
-import Promise from 'bluebird'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+import * as Promise from 'bluebird'
 import program from 'commander'
 import co from 'co'
 import prompt from 'co-prompt'
 import chalk from 'chalk'
-import fs from 'fs'
+import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
 import {
   getHeaders,

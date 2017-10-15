@@ -7,7 +7,7 @@ dotenv.config()
 
 import * as program from 'commander'
 import co from 'co'
-import prompt from 'co-prompt'
+import * as prompt from 'co-prompt'
 import * as chalk from 'chalk'
 import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'

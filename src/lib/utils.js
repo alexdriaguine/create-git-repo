@@ -3,6 +3,7 @@ import {exec} from 'child_process'
 import Promise from 'bluebird'
 import co from 'co'
 import {GithubRequestHeaders, InitRepo} from './entities'
+import readline from 'readline'
 
 export const GITHUB_API_BASE_URL: string = 'https://api.github.com'
 
@@ -54,3 +55,54 @@ export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
     addRemote,
   }
 }
+
+export const prompt = (function () {
+  let rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  return function run (question, options={}) {
+    let stdin
+
+    function onData (char) {
+      char = char + "";
+      switch (char) {
+        case "\n":
+        case "\r":
+        case "\u0004":
+          stdin.removeListener('data', onData);
+          break;
+        default:
+          process.stdout.write('\u001b[2K\u001b[200D' + question + Array(rl.line.length+1).join("*"));
+          break;
+      }
+    }
+
+    return function (done) {
+      if (options.masked) {
+        rl.close()
+        stdin = process.openStdin()
+        rl = readline.createInterface({
+          input: stdin,
+          output: process.stdout
+        })
+        stdin.on('data', onData)
+      }
+
+      rl.question(question, answer => {
+        if (options.masked) {
+          stdin.removeListener('data', onData)
+          rl.close()
+
+          rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          })
+        }
+
+        done(null, answer)
+      })
+    }
+  }
+})()

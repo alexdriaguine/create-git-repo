@@ -7,7 +7,6 @@ import dotenv from 'dotenv'
 import Promise from 'bluebird'
 import program from 'commander'
 import co from 'co'
-import prompt from 'co-prompt'
 import chalk from 'chalk'
 import fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
@@ -17,6 +16,7 @@ import {
   getEnvVar,
   getBasicAuthToken,
   hasCreateReactApp,
+  prompt
 } from './lib/utils'
 import fetch from 'node-fetch'
 
@@ -34,7 +34,7 @@ function main(name: string): void {
       console.log('Please enter your github credentials instead')
 
       username = yield prompt('Username: ')
-      password = yield prompt.password('Password: ')
+      password = yield prompt('Password: ', { masked: true })
       basicAuthToken = getBasicAuthToken(username, password)
     } else {
       basicAuthToken = getBasicAuthToken(username, githubAccessToken)

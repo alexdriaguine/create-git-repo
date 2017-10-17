@@ -3,21 +3,15 @@ Create github repositories with ease.
 
 ## Installation
 
-### Using NPM
-* Clone the repository
-* CD into directory
-* `npm install` to install dependencies
-* `npm run build && npm link` to build
-
 ### Using Yarn
-* Clone the repository
-* CD into directory
-* `yarn`
-* `yarn build && yarn link`
+`yarn global add git-repo-create`
+
+### Using NPM
+`npm install --global git-repo-create`
 
 
 ## Usage
-* `create-git-repo Hello`  
+* `git-repo-create Hello`  
 
 
 If you don't want to be prompted for password all the time, create an access token on github

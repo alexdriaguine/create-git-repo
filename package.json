@@ -27,12 +27,12 @@
   "version": "1.0.0",
   "scripts": {
     "build": "backpack build",
-    "dev": "backpack dev"
+    "dev": "tsc; chmod 500 ./build/main.js; backpack dev"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "bin": {
-    "git-repo-create": "./dist/index.js"
+    "git-repo-create": "./build/index.js"
   }
 }

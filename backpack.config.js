@@ -1,7 +1,7 @@
 module.exports = {
   webpack: (config, options, webpack) => {
     config.entry.main = [
-      './index.ts'
+      './src/main.ts'
     ]
 
     config.resolve = {
@@ -11,7 +11,7 @@ module.exports = {
     config.module.rules.push(
       {
         test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
+        loader: 'awesome-typescript-loader'
       }
     );
 

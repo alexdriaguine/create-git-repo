@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "build",
     "module": "commonjs",
     "target": "es6",
     "lib": ["es2017", "dom", "esnext.asynciterable"],
@@ -17,8 +17,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": [
+        "src/**/*"
+    ]
 }

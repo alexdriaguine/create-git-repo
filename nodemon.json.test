@@ -1,0 +1,5 @@
+{
+    "watch": ["src/"],
+    "exec": "tsc; chmod 500 ./dist/index.js; ./dist/index.js hi",
+    "ext": "ts"
+}

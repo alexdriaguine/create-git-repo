@@ -1,23 +1,25 @@
 {
   "compilerOptions": {
-    "outDir": "build",
-    "module": "commonjs",
-    "target": "es6",
-    "lib": ["es2017", "dom", "esnext.asynciterable"],
-    "sourceMap": true,
+    "target": "es2015",
     "allowJs": true,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "rootDir": "src",
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "lib": ["es5", "es2015", "es2016", "es2017"],
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "types": [
+      "node"
+    ]
   },
   "include": [
-        "src/**/*"
-    ]
+    "src/**/*",
+    "typings/**/*"
+  ],
+  "exclude": [],
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "atom": { "rewriteTsconfig": false }
 }

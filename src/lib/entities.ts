@@ -1,5 +1,3 @@
-import * as Promise from 'bluebird';
-
 export interface GithubRequestParams {
   accessToken: string,
   name: string,

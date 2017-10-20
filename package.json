@@ -27,7 +27,7 @@
     "typescript": "^2.5.3"
   },
   "name": "git-repo-create",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "build": "backpack build",
     "start": "backpack build && node ./build/main.js test",
@@ -37,6 +37,6 @@
   "license": "ISC",
   "description": "",
   "bin": {
-    "git-repo-create": "node ./build/main.js"
+    "git-repo-create": "./build/main.js"
   }
 }

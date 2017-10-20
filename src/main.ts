@@ -1,24 +1,16 @@
-#!/usr/bin/env node
-// @flow
-require('dotenv').config()
-require('babel-polyfill')
-
-import dotenv from 'dotenv'
-import Promise from 'bluebird'
-import program from 'commander'
-import co from 'co'
-import chalk from 'chalk'
-import fs from 'fs'
+import 'babel-polyfill'
+import * as program from 'commander'
+import * as co from 'co'
+import * as chalk from 'chalk'
+import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
 import {
-  getHeaders,
   initiateRepo,
   getEnvVar,
   getBasicAuthToken,
   hasCreateReactApp,
-  prompt
+  prompt,
 } from './lib/utils'
-import fetch from 'node-fetch'
 
 function main(name: string): void {
   co(function*() {
@@ -34,7 +26,7 @@ function main(name: string): void {
       console.log('Please enter your github credentials instead')
 
       username = yield prompt('Username: ')
-      password = yield prompt('Password: ', { masked: true })
+      password = yield prompt('Password: ', {masked: true})
       basicAuthToken = getBasicAuthToken(username, password)
     } else {
       basicAuthToken = getBasicAuthToken(username, githubAccessToken)
@@ -116,18 +108,19 @@ function main(name: string): void {
         console.log(`1. ${chalk.bold.green(`cd ${name}`)}`)
         console.log(`2. ${chalk.bold.green(`git push -u origin master`)}`)
         console.log(`Hack away!`)
-        process.exit(1)
+        process.exit(0)
       })
       .catch(err => console.error(err))
   })
 }
 
 program
+  .version('1.0.2')
   .arguments('<name>')
   .action(main)
   .parse(process.argv)
 
-if (!program.arguments('name')) {
+if (!program['name']) {
   console.log('Please supply a name for the repository')
-  process.exit(0)
+  process.exit(1)
 }

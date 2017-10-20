@@ -1,9 +1,6 @@
-// @flow
 import {exec} from 'child_process'
-import Promise from 'bluebird'
-import co from 'co'
 import {GithubRequestHeaders, InitRepo} from './entities'
-import readline from 'readline'
+import * as readline from 'readline'
 
 export const GITHUB_API_BASE_URL: string = 'https://api.github.com'
 
@@ -28,9 +25,9 @@ const execute = (dir: string) => (command: string) => () =>
   )
 
 export type InitRepoArgs = {
-  dir: string,
-  name: string,
-  remoteUrl: string,
+  dir: string
+  name: string
+  remoteUrl: string
 }
 
 export const hasCreateReactApp = () =>
@@ -56,36 +53,40 @@ export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
   }
 }
 
-export const prompt = (function () {
+export const prompt = (function() {
   let rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   })
 
-  return function run (question, options={}) {
-    let stdin
+  return function run(question: string, options: {masked?: boolean} = {}) {
+    let stdin: NodeJS.Socket
 
-    function onData (char) {
-      char = char + "";
+    function onData(char: string) {
+      char = char + ''
       switch (char) {
-        case "\n":
-        case "\r":
-        case "\u0004":
-          stdin.removeListener('data', onData);
-          break;
+        case '\n':
+        case '\r':
+        case '\u0004':
+          stdin.removeListener('data', onData)
+          break
         default:
-          process.stdout.write('\u001b[2K\u001b[200D' + question + Array(rl.line.length+1).join("*"));
-          break;
+          process.stdout.write(
+            '\u001b[2K\u001b[200D' +
+              question +
+              Array(rl['line'].length + 1).join('*'),
+          )
+          break
       }
     }
 
-    return function (done) {
+    return function(done: (err: any, answer: string) => void) {
       if (options.masked) {
         rl.close()
         stdin = process.openStdin()
         rl = readline.createInterface({
           input: stdin,
-          output: process.stdout
+          output: process.stdout,
         })
         stdin.on('data', onData)
       }
@@ -97,7 +98,7 @@ export const prompt = (function () {
 
           rl = readline.createInterface({
             input: process.stdin,
-            output: process.stdout
+            output: process.stdout,
           })
         }
 

@@ -1,4 +1,3 @@
-// @flow
 
 import fetch from 'node-fetch'
 import {GITHUB_API_BASE_URL, getHeaders} from './utils'
@@ -28,7 +27,10 @@ export function checkIfRepoExists(
   name: string,
   accessToken: string,
   username: string,
-): Promise<boolean> {
+): Promise<{
+    wrongCredentials: boolean;
+    repoExists: boolean;
+}> {
   const headers = getHeaders(accessToken)
 
   return fetch(`${GITHUB_API_BASE_URL}/repos/${username}/${name}`, {

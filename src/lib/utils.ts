@@ -1,7 +1,6 @@
-// @flow
+
 import {exec} from 'child_process'
-import Promise from 'bluebird'
-import co from 'co'
+import * as Promise from 'bluebird'
 import {GithubRequestHeaders, InitRepo} from './entities'
 import readline from 'readline'
 

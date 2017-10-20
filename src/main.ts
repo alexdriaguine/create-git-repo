@@ -1,24 +1,22 @@
 #!/usr/bin/env node
-// @flow
-require('dotenv').config()
+
 require('babel-polyfill')
 
-import dotenv from 'dotenv'
-import Promise from 'bluebird'
-import program from 'commander'
-import co from 'co'
-import chalk from 'chalk'
-import fs from 'fs'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+import * as program from 'commander'
+import * as co from 'co'
+import * as chalk from 'chalk'
+import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
 import {
-  getHeaders,
   initiateRepo,
   getEnvVar,
   getBasicAuthToken,
   hasCreateReactApp,
   prompt
 } from './lib/utils'
-import fetch from 'node-fetch'
 
 function main(name: string): void {
   co(function*() {

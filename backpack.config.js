@@ -11,6 +11,8 @@ module.exports = {
       loader: 'awesome-typescript-loader',
     })
 
+    config.plugins.push(new webpack.BannerPlugin({ banner: "#!/usr/bin/env node", raw: true }))
+
     return config
   },
 }

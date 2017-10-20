@@ -27,7 +27,7 @@
     "typescript": "^2.5.3"
   },
   "name": "git-repo-create",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "scripts": {
     "build": "backpack build",
     "start": "backpack build && node ./build/main.js test",

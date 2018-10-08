@@ -1,5 +1,5 @@
-import { exec } from 'child_process'
-import { GithubRequestHeaders, InitRepo } from './entities'
+import {exec} from 'child_process'
+import {GithubRequestHeaders, InitRepo} from './entities'
 import * as readline from 'readline'
 import * as chalk from 'chalk'
 
@@ -16,13 +16,13 @@ export const getEnvVar = (key: string): string => process.env[key] || ''
 export const getHeaders = (accessToken: string): GithubRequestHeaders => {
   return {
     Accept: 'application/vnd.github.v3+json',
-    Authorization: `Basic ${accessToken}`
+    Authorization: `Basic ${accessToken}`,
   }
 }
 
 const execute = (dir: string) => (command: string) => () =>
   new Promise((resolve, reject) =>
-    exec(command, { cwd: dir }, err => (err ? reject(err) : resolve()))
+    exec(command, {cwd: dir}, err => (err ? reject(err) : resolve()))
   )
 
 export type InitRepoArgs = {
@@ -36,7 +36,7 @@ export const hasCreateReactApp = () =>
     .then(() => true)
     .catch(() => false)
 
-export function initiateRepo({ dir, name, remoteUrl }: InitRepoArgs): InitRepo {
+export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
   const init = execute(dir)('git init')
   const createReactApp = execute(dir)(`create-react-app .`)
   const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)
@@ -50,17 +50,17 @@ export function initiateRepo({ dir, name, remoteUrl }: InitRepoArgs): InitRepo {
     createReadme,
     add,
     commit,
-    addRemote
+    addRemote,
   }
 }
 
 export const prompt = (function() {
   let rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   })
 
-  return function run(question: string, options: { masked?: boolean } = {}) {
+  return function run(question: string, options: {masked?: boolean} = {}) {
     let stdin: NodeJS.Socket
 
     function onData(char: string) {
@@ -87,7 +87,7 @@ export const prompt = (function() {
         stdin = process.openStdin()
         rl = readline.createInterface({
           input: stdin,
-          output: process.stdout
+          output: process.stdout,
         })
         stdin.on('data', onData)
       }
@@ -99,7 +99,7 @@ export const prompt = (function() {
 
           rl = readline.createInterface({
             input: process.stdin,
-            output: process.stdout
+            output: process.stdout,
           })
         }
 
@@ -111,7 +111,7 @@ export const prompt = (function() {
 
 // handle all errors that may result while creating repo
 export const handleErrors = async function(body) {
-  const { message, documentation_url } = await body.json()
+  const {message, documentation_url} = await body.json()
   console.log(chalk.bold.red(`Hey! ${message}`))
   console.log(chalk.blue(`Read more: ${documentation_url}`))
   process.exit(0)

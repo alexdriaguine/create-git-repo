@@ -21,7 +21,7 @@ function main(name: string): void {
 
     if (username.length === 0 || githubAccessToken.length === 0) {
       console.log(
-        'No username or github access token found set as enviroment variables..',
+        'No username or github access token found set as enviroment variables..'
       )
       console.log('Please enter your github credentials instead')
 
@@ -35,29 +35,29 @@ function main(name: string): void {
     const {wrongCredentials, repoExists} = yield checkIfRepoExists(
       name,
       basicAuthToken,
-      username,
+      username
     )
     const dir = `./${name}`
 
     if (fs.existsSync(dir)) {
       console.log(
         chalk.bold.red(
-          `A folder with the name ${name} already exists in this folder..`,
-        ),
+          `A folder with the name ${name} already exists in this folder..`
+        )
       )
       process.exit(0)
     }
     if (repoExists) {
       console.log(
         chalk.bold.red(
-          `A repository with the name ${name} already exists on your github account..`,
-        ),
+          `A repository with the name ${name} already exists on your github account..`
+        )
       )
       process.exit(0)
     }
     if (wrongCredentials) {
       console.log(
-        chalk.bold.red(`Hey! You got your credentials all wrong ${username}!`),
+        chalk.bold.red(`Hey! You got your credentials all wrong ${username}!`)
       )
       process.exit(0)
     }
@@ -101,8 +101,8 @@ function main(name: string): void {
       .then(() => {
         console.log(
           `Your newly created repository is created and located at ${chalk.bold.cyan(
-            html_url,
-          )}`,
+            html_url
+          )}`
         )
         console.log(`To start working:`)
         console.log(`1. ${chalk.bold.green(`cd ${name}`)}`)

@@ -1,6 +1,6 @@
-import fetch from "node-fetch"
-import { GITHUB_API_BASE_URL, getHeaders, handleErrors } from "./utils"
-import { GithubRequestParams } from "./entities"
+import fetch from 'node-fetch'
+import { GITHUB_API_BASE_URL, getHeaders, handleErrors } from './utils'
+import { GithubRequestParams } from './entities'
 
 export function createRepo({
   name,
@@ -16,7 +16,7 @@ export function createRepo({
   })
 
   return fetch(`${GITHUB_API_BASE_URL}/user/repos`, {
-    method: "POST",
+    method: 'POST',
     headers,
     body
   }).then(res => {
@@ -39,7 +39,7 @@ export function checkIfRepoExists(
   const headers = getHeaders(accessToken)
 
   return fetch(`${GITHUB_API_BASE_URL}/repos/${username}/${name}`, {
-    method: "GET",
+    method: 'GET',
     headers
   }).then(({ status }) => ({
     wrongCredentials: status === 401,

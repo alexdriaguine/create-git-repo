@@ -24,4 +24,5 @@ export GITHUB_USERNAME="xxxxxxx"
 export GITHUB_CREATE_REPO_ACCESS_TOKEN=xxxxx
 ```
 
-To be able to push to github without being prompted for username/password, set up git to use SSH
+To be able to push to github without being prompted for username/password, [set up git to use SSH](https://help.github.com/articles/connecting-to-github-with-ssh/)
+

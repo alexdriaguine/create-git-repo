@@ -1,48 +1,48 @@
-import fetch from 'node-fetch';
-import {GITHUB_API_BASE_URL, getHeaders, handleErrors} from './utils';
-import {GithubRequestParams} from './entities';
+import fetch from "node-fetch"
+import { GITHUB_API_BASE_URL, getHeaders, handleErrors } from "./utils"
+import { GithubRequestParams } from "./entities"
 
 export function createRepo({
   name,
   isPrivate,
   description,
-  accessToken,
+  accessToken
 }: GithubRequestParams): Promise<any> {
-  const headers = getHeaders(accessToken);
+  const headers = getHeaders(accessToken)
   const body = JSON.stringify({
     name,
     private: isPrivate,
-    description,
-  });
+    description
+  })
 
   return fetch(`${GITHUB_API_BASE_URL}/user/repos`, {
-    method: 'POST',
+    method: "POST",
     headers,
-    body,
+    body
   }).then(res => {
     // handle error cases with util function
     if (res.status >= 400) {
-      return handleErrors(res);
+      return handleErrors(res)
     }
-    return res.json();
-  });
+    return res.json()
+  })
 }
 
 export function checkIfRepoExists(
   name: string,
   accessToken: string,
-  username: string,
+  username: string
 ): Promise<{
-  wrongCredentials: boolean;
-  repoExists: boolean;
+  wrongCredentials: boolean
+  repoExists: boolean
 }> {
-  const headers = getHeaders(accessToken);
+  const headers = getHeaders(accessToken)
 
   return fetch(`${GITHUB_API_BASE_URL}/repos/${username}/${name}`, {
-    method: 'GET',
-    headers,
-  }).then(({status}) => ({
+    method: "GET",
+    headers
+  }).then(({ status }) => ({
     wrongCredentials: status === 401,
-    repoExists: status === 200,
-  }));
+    repoExists: status === 200
+  }))
 }

@@ -9,6 +9,11 @@ Create github repositories with ease.
 ### Using NPM
 `npm install --global git-repo-create`
 
+### Using NPX
+`npx git-repo-create repo-name`
+
+Make sure you change repo-name to your new repository name
+
 
 ## Usage
 * `git-repo-create Hello`  

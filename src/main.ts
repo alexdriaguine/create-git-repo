@@ -4,12 +4,11 @@ import * as co from 'co'
 import * as chalk from 'chalk'
 import * as fs from 'fs'
 import {createRepo, checkIfRepoExists} from './lib/github'
+import {getSelection} from './lib/actions'
 import {
   initiateRepo,
   getEnvVar,
   getBasicAuthToken,
-  hasCreateReactApp,
-  hasNpx,
   prompt,
 } from './lib/utils'
 
@@ -63,19 +62,10 @@ function main(name: string): void {
       process.exit(0)
     }
     fs.mkdirSync(dir)
-    const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N')
+    const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N: ')
     const isPrivate = yield prompt('Private repo? y/N: ')
     const description = yield prompt('Description: ')
-    const hasReact = yield hasCreateReactApp()
-    const useReact = hasReact
-      ? yield prompt('Use create-react-app? y/N: ')
-      : false
-    const canUseNpx = yield hasNpx()
-    const useNpx =
-      !hasReact && canUseNpx
-        ? yield prompt("You don't have create-react-app! Use npx? y/N")
-        : false
-
+    const selection = yield getSelection()
     const repoOptions = {
       name,
       description,
@@ -87,29 +77,16 @@ function main(name: string): void {
     const initRepoOptions = {
       dir,
       name,
-      useReact: useReact === 'y',
-      useNpx: useNpx === 'y',
       remoteUrl: useSSHRemote === 'y' ? ssh_url : clone_url,
     }
-    const {
-      init,
-      createReadme,
-      createReactApp,
-      npxCreateReactApp,
-      add,
-      commit,
-      addRemote,
-    } = initiateRepo(initRepoOptions)
+
+    const {init, actions, add, commit, addRemote} = yield initiateRepo(
+      initRepoOptions
+    )
 
     init()
       .then(addRemote)
-      .then(
-        useReact === 'y'
-          ? createReactApp
-          : useNpx
-            ? npxCreateReactApp
-            : createReadme
-      )
+      .then(actions[selection])
       .then(add)
       .then(commit)
       .then(() => {
@@ -124,7 +101,7 @@ function main(name: string): void {
         console.log(`Hack away!`)
         process.exit(0)
       })
-      .catch(err => console.error(err))
+      .catch(err => (console.error(err), process.exit(1)))
   })
 }
 

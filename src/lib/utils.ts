@@ -36,9 +36,15 @@ export const hasCreateReactApp = () =>
     .then(() => true)
     .catch(() => false)
 
+export const hasNpx = () =>
+  execute('.')('npx --version')()
+    .then(() => true)
+    .catch(() => false)
+
 export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
   const init = execute(dir)('git init')
   const createReactApp = execute(dir)(`create-react-app .`)
+  const npxCreateReactApp = execute(dir)(`npx create-react-app .`)
   const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)
   const add = execute(dir)('git add .')
   const addRemote = execute(dir)(`git remote add origin ${remoteUrl}`)
@@ -47,6 +53,7 @@ export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
   return {
     init,
     createReactApp,
+    npxCreateReactApp,
     createReadme,
     add,
     commit,

@@ -9,6 +9,7 @@ import {
   getEnvVar,
   getBasicAuthToken,
   hasCreateReactApp,
+  hasNpx,
   prompt,
 } from './lib/utils'
 
@@ -70,6 +71,12 @@ function main(name: string): void {
       ? yield prompt('Use create-react-app? y/N: ')
       : false
 
+    const canUseNpx = yield hasNpx()
+    const useNpx =
+      !hasReact && canUseNpx
+        ? yield prompt("You don't have create-react-app! Use npx? y/N")
+        : false
+
     const repoOptions = {
       name,
       description,
@@ -82,12 +89,14 @@ function main(name: string): void {
       dir,
       name,
       useReact: useReact === 'y',
+      useNpx: useNpx === 'y',
       remoteUrl: useSSHRemote === 'y' ? ssh_url : clone_url,
     }
     const {
       init,
       createReadme,
       createReactApp,
+      npxCreateReactApp,
       add,
       commit,
       addRemote,
@@ -95,7 +104,13 @@ function main(name: string): void {
 
     init()
       .then(addRemote)
-      .then(useReact === 'y' ? createReactApp : createReadme)
+      .then(
+        useReact === 'y'
+          ? createReactApp
+          : useNpx
+            ? npxCreateReactApp
+            : createReadme
+      )
       .then(add)
       .then(commit)
       .then(() => {

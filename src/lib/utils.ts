@@ -2,6 +2,7 @@ import {exec} from 'child_process'
 import {GithubRequestHeaders, InitRepo} from './entities'
 import * as readline from 'readline'
 import * as chalk from 'chalk'
+import {getActions} from './actions'
 
 export const GITHUB_API_BASE_URL: string = 'https://api.github.com'
 
@@ -20,7 +21,7 @@ export const getHeaders = (accessToken: string): GithubRequestHeaders => {
   }
 }
 
-const execute = (dir: string) => (command: string) => () =>
+export const execute = (dir: string) => (command: string) => () =>
   new Promise((resolve, reject) =>
     exec(command, {cwd: dir}, err => (err ? reject(err) : resolve()))
   )
@@ -31,30 +32,30 @@ export type InitRepoArgs = {
   remoteUrl: string
 }
 
-export const hasCreateReactApp = () =>
-  execute('.')('create-react-app --version')()
-    .then(() => true)
-    .catch(() => false)
+export const hasLibrary = (library: string): Promise<string> =>
+  execute('.')(`${library} --version`)()
+    .then(() => library)
+    .catch(() => '')
 
 export const hasNpx = () =>
   execute('.')('npx --version')()
     .then(() => true)
     .catch(() => false)
 
-export function initiateRepo({dir, name, remoteUrl}: InitRepoArgs): InitRepo {
+export async function initiateRepo({
+  dir,
+  name,
+  remoteUrl,
+}: InitRepoArgs): Promise<InitRepo> {
   const init = execute(dir)('git init')
-  const createReactApp = execute(dir)(`create-react-app .`)
-  const npxCreateReactApp = execute(dir)(`npx create-react-app .`)
-  const createReadme = execute(dir)(`echo "# ${name}" >> README.md`)
   const add = execute(dir)('git add .')
   const addRemote = execute(dir)(`git remote add origin ${remoteUrl}`)
   const commit = execute(dir)('git commit -m "first commit"')
+  const actions = await getActions({dir, name})
 
   return {
     init,
-    createReactApp,
-    npxCreateReactApp,
-    createReadme,
+    actions,
     add,
     commit,
     addRemote,

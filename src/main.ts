@@ -70,7 +70,6 @@ function main(name: string): void {
     const useReact = hasReact
       ? yield prompt('Use create-react-app? y/N: ')
       : false
-
     const canUseNpx = yield hasNpx()
     const useNpx =
       !hasReact && canUseNpx

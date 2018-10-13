@@ -28,9 +28,6 @@ import * as co from 'co'
  *
  * Good luck!
  */
-// export enum Libraries {
-//   CreateReactApp = 'create-react-app',
-// }
 
 interface Command {
   withNpx: string

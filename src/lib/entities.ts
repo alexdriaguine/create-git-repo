@@ -13,9 +13,9 @@ export interface GithubRequestHeaders {
 
 export interface InitRepo {
   init: () => Promise<any>
-  createReadme: () => Promise<any>
-  createReactApp: () => Promise<any>
+  actions: any
   add: () => Promise<any>
   commit: () => Promise<any>
   addRemote: () => Promise<any>
 }
+

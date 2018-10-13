@@ -29,7 +29,7 @@
   "version": "1.0.6",
   "scripts": {
     "build": "backpack build",
-    "start": "backpack build && node ./build/main.js call",
+    "start": "backpack build && node ./build/main.js test",
     "dev": "backpack dev"
   },
   "author": "",

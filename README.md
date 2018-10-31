@@ -19,8 +19,7 @@ Make sure you change repo-name to your new repository name
 * `git-repo-create Hello`  
 
 
-If you don't want to be prompted for password all the time, create an access token on github
-with the right to create repositories
+If you don't want to be prompted for password all the time, create an [access token on github](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the right to create repositories
 and export it as an enviroment variable aswell as your github username.
 
 ```sh
